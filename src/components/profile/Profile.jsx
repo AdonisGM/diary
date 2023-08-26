@@ -1,9 +1,7 @@
 import {Avatar, Card, CardBody, Divider} from "@nextui-org/react";
 import {
   IconLockSquareRounded,
-  IconLockSquareRoundedFilled,
   IconSquareRoundedPlusFilled,
-  IconUserCircle,
   IconUsers,
   IconWorld
 } from "@tabler/icons-react";
@@ -13,6 +11,13 @@ const Profile = () => {
     <div className={'flex flex-col items-center'}>
       <div className={'w-[900px] flex flex-row gap-5'}>
         <div className={'w-1/3 sticky top-0 self-start'}>
+          <Card
+            className={'mt-5'}
+          >
+            <CardBody className={'py-3 flex flex-col items-center justify-center'}>
+              <h1 className={'text-default-500 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'}>Diary</h1>
+            </CardBody>
+          </Card>
           <Card
             className={'mt-5'}
           >
@@ -57,9 +62,9 @@ const Profile = () => {
         <div className={'w-2/3'}>
           {/* Create */}
           <div
-            className={'mt-5 flex flex-col items-center justify-center p-5 rounded-xl border-dashed border-default-300 border-2 cursor-pointer'}
+            className={'mt-5 flex flex-col items-center justify-center p-5 rounded-xl border-dashed border-default-300 border-2 cursor-pointer text-default-500 text-sm '}
           >
-            <IconSquareRoundedPlusFilled size={32} stroke={2.5} color={'#727272'}/>
+            Bạn ổn không? Kể cho mình nghe với, mình sẽ giữ bí mật và luôn ở đây với bạn. Nhấn vào mình để bắt đầu viết nhé!
           </div>
 
           {/* Posts */}
@@ -79,16 +84,12 @@ const Profile = () => {
                 </p>
               </div>
               <p className={'text-default-700 font-bold text-md mt-2'}>
-                Lorem ipsum dolor sit
+                Nỗi buồn không thể nói ra
               </p>
               <p
                 className={'text-default-500 text-sm mt-2'}
               >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, asperiores atque autem beatae
-                consequatur cumque cupiditate delectus doloremque doloribus ducimus ea earum eius eligendi error
-                excepturi exercitationem explicabo facere facilis fugiat fugit hic illum impedit in incidunt ipsa
-                ipsum iure laboriosam laborum libero magnam maiores maxime minima minus molestiae mollitia natus
-                necessitatibus nemo neque nihil nisi nobis nostrum nulla numquam obcaecati officia officiis omnis
+                Hôm nay mình buồn quá, không biết nói với ai cả. Mình cảm thấy mình không có giá trị gì cả, mình không có tài năng, mình không có gì cả. Mình chỉ là một người bình thường, không có gì đặc biệt.
               </p>
               <div className={'flex flex-row items-center justify-end gap-2 mt-2'}>
                 <p className={'text-default-300 text-xs italic'}>
@@ -116,16 +117,12 @@ const Profile = () => {
                 </p>
               </div>
               <p className={'text-default-700 font-bold text-md mt-2'}>
-                Lorem ipsum dolor sit
+                Nhớ ai đó
               </p>
               <p
                 className={'text-default-500 text-sm mt-2'}
               >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, asperiores atque autem beatae
-                consequatur cumque cupiditate delectus doloremque doloribus ducimus ea earum eius eligendi error
-                excepturi exercitationem explicabo facere facilis fugiat fugit hic illum impedit in incidunt ipsa
-                ipsum iure laboriosam laborum libero magnam maiores maxime minima minus molestiae mollitia natus
-                necessitatibus nemo neque nihil nisi nobis nostrum nulla numquam obcaecati officia officiis omnis
+                Khi nhớ ai đó, mình sẽ viết ra những gì mình muốn nói với họ. Nhưng mà mình không dám nói ra, mình sợ họ sẽ không thích mình nữa. Mình sợ họ sẽ không quan tâm mình nữa. Mình sợ họ sẽ không thương mình nữa. Mình sợ họ sẽ không yêu mình nữa.
               </p>
               <div className={'flex flex-row items-center justify-end gap-2 mt-2'}>
                 <p className={'text-default-300 text-xs italic'}>
