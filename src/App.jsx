@@ -8,18 +8,9 @@ import CookieImage from "./assets/cookie-svgrepo-com.svg";
 import {Button, Card, Image} from "@nextui-org/react";
 import {Fragment, useEffect} from "react";
 import {Toaster} from "react-hot-toast";
-import NonAuth from "./components/auth/NonAuth.jsx";
+import Auth from "./components/auth/Auth.jsx";
 import Welcome from "./components/welcome/welcome.jsx";
-
-// import Signup from "./components/signup/Signup.jsx";
-// import Login from "./components/login/Login.jsx";
-// import Information from "./components/menuLayout/menuItems/information/Information.jsx";
-// import MenuLayout from "./components/menuLayout/MenuLayout.jsx";
-// import Apps from "./components/menuLayout/menuItems/apps/Apps.jsx";
-// import Setting from "./components/menuLayout/menuItems/setting/Setting.jsx";
-// import Welcome from "./components/welcome/Welcome.jsx";
-// import Auth from "./components/auth/Auth.jsx";
-// import NonAuth from "./components/auth/NonAuth.jsx";
+import Profile from "./components/profile/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +18,8 @@ const router = createBrowserRouter([
     element: <Welcome />,
   },
   {
-    path: "/sign-up",
-    element: <p>Sign up</p>,
+    path: "/profile/:username",
+    element: <Auth><Profile /></Auth>,
   },
   {
     path: "*",

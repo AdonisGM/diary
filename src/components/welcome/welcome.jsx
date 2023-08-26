@@ -40,11 +40,12 @@ const Welcome = () => {
     }
 
     const redirect_uri = encodeURIComponent(window.location.origin + '/me');
-    window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
+    // window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
+    window.location.href = `http://localhost:5173/login?redirect_uri=${redirect_uri}`;
   }
 
   return (
-    <div className={'flex flex-col items-center justify-center h-screen'}>
+    <div className={'flex flex-col items-center justify-center h-screen bg-amber-50'}>
       <h1 className={'text-default-500 text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'}>Diary</h1>
       <Spacer y={10}/>
       <p className={'text-default-500 text-sm'}>
