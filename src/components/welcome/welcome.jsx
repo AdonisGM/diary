@@ -35,11 +35,11 @@ const Welcome = () => {
 
   const handleLogin = () => {
     if (isLogin) {
-      navigate('/me');
+      navigate('/profile/nmtung');
       return;
     }
 
-    const redirect_uri = encodeURIComponent(window.location.origin + '/me');
+    const redirect_uri = encodeURIComponent(window.location.origin + '/profile/nmtung');
     // window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
     window.location.href = `http://localhost:5173/login?redirect_uri=${redirect_uri}`;
   }
