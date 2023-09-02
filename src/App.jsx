@@ -11,6 +11,7 @@ import {Toaster} from "react-hot-toast";
 import Auth from "./components/auth/Auth.jsx";
 import Welcome from "./components/welcome/welcome.jsx";
 import Profile from "./components/profile/Profile.jsx";
+import Cookies from "js-cookie";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,13 @@ function App() {
   useEffect(() => {
     if (!localStorage.getItem('isAllowCookie')) {
       animate(scope.current, {opacity: 1, y: 0, scale: 1});
+    }
+
+    if (!localStorage.getItem('username') && Cookies.get('access_token')) {
+      const token = Cookies.get('access_token');
+      const base64 = token.split('.')[1];
+      const payload = JSON.parse(atob(base64));
+      localStorage.setItem('username', payload.data.username);
     }
   }, [animate, scope]);
 

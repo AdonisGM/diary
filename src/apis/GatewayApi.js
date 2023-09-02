@@ -1,5 +1,6 @@
 import Cookie from "js-cookie";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const ENDPOINT = localStorage.getItem('isLocalhost') ? 'http://localhost:5000' : 'https://api.nmtung.dev';
 
@@ -36,11 +37,13 @@ const GatewayApi = async (cmd, dataObj) => {
   }
 
   if (response.status >= 500) {
+    toast('Có lỗi xảy ra, vui lòng thử lại sau!'); // 'Có lỗi xảy ra, vui lòng thử lại sau!
     return Promise.reject(undefined);
   }
 
   if (!response.ok) {
     const errorData = await response.json();
+    toast(errorData.error_message);
     return Promise.reject(errorData);
   }
 

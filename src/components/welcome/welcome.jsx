@@ -35,14 +35,19 @@ const Welcome = () => {
 
   const handleLogin = () => {
     if (isLogin) {
-      navigate('/profile/nmtung');
+      const username = localStorage.getItem('username')
+      navigate(`/profile/${username}`);
       return;
     }
 
-    const redirect_uri = encodeURIComponent(window.location.origin + '/profile/nmtung');
-    window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
-    // window.location.href = `http://localhost:5173/login?redirect_uri=${redirect_uri}`;
+    const redirect_uri = encodeURIComponent(window.location.origin + '/callback');
+    // window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
+    window.location.href = `http://localhost:5173/login?redirect_uri=${redirect_uri}`;
   }
+
+  useEffect(() => {
+
+  }, []);
 
   return (
     <div className={'flex flex-col items-center justify-center h-screen bg-amber-50'}>
