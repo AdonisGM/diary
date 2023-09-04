@@ -43,7 +43,7 @@ const Welcome = () => {
     const redirect_uri = encodeURIComponent(window.location.origin);
 
     // window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
-    window.location.href = `${import.meta.env.VITE_SSO_URL}?redirect_uri=${redirect_uri}`;
+    window.location.href = `${import.meta.env.VITE_SSO_URL}/login?redirect_uri=${redirect_uri}`;
   }
 
   useEffect(() => {
