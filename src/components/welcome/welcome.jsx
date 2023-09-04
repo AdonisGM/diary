@@ -40,7 +40,7 @@ const Welcome = () => {
       return;
     }
 
-    const redirect_uri = encodeURIComponent(window.location.origin + '/callback');
+    const redirect_uri = encodeURIComponent(window.location.origin);
     // window.location.href = `https://account.nmtung.dev/login?redirect_uri=${redirect_uri}`;
     window.location.href = `http://localhost:5173/login?redirect_uri=${redirect_uri}`;
   }
@@ -54,10 +54,10 @@ const Welcome = () => {
       <h1 className={'text-default-500 text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'}>Diary</h1>
       <Spacer y={10}/>
       <p className={'text-default-500 text-sm'}>
-        Oh, you are here! Did you have same thing hard to say? Let&apos;s write it down!. It&apos;s better than keep it in your mind.
+        Oh, Bạn đó à! Có chuyện gì khó nói không? Viết ra đi, viết ra đi. Viết ra cho mình nghe, mình sẽ giữ bí mật và luôn ở đây với bạn khi bạn cần.
       </p>
       <p className={'text-default-500 text-sm'}>
-        Don&apos;t worry, your diary is private if you don&apos;t share it.
+        Bạn có thể viết nhật ký của mình ở chế độ riêng tư hoặc công khai.
       </p>
       <Spacer y={16}/>
       <Button
@@ -66,7 +66,7 @@ const Welcome = () => {
         endContent={isLogin ? <IconArrowBigRightFilled size={20} stroke={2.5} color={'#fff'}/> : undefined}
         onPress={handleLogin}
       >
-        {isLogin ? 'Go to diary ' : 'Login with SSO'}
+        {isLogin ? 'Bắt đầu viết ' : 'Đăng nhập '}
       </Button>
       <Spacer y={14}/>
       <div className={'flex flex-col items-center justify-center'}>

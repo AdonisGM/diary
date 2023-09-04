@@ -4,7 +4,7 @@ import {IconLockSquareRounded, IconWorld} from "@tabler/icons-react";
 import {Decrypt} from "../../../crypto/encryptAndDecrypt.js";
 import {convertTimeToTextAgo} from "../../../common/common.js";
 
-const ListPost = (props) => {
+const Post = (props) => {
   const [post, setPost] = useState({});
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const ListPost = (props) => {
   );
 }
 
-export default ListPost;
+export default Post;

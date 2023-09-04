@@ -47,6 +47,8 @@ const CreatePost = (props) => {
         console.log(e);
       })
     }
+
+    setOption('PRIVATE');
   }, [])
 
   const handleOpen = () => {
@@ -149,6 +151,15 @@ const CreatePost = (props) => {
                     </SelectItem>
                   )}
                 </Select>
+                <p className={'text-red-500 text-xs mt-2'}>
+                  Lưu ý:
+                </p>
+                <p className={'text-default-500 text-xs'}>
+                  <span className={'text-red-500'}>Riêng tư:</span> Nhật ký của bạn sẽ được mã hóa nên chỉ có bạn mới đọc được nội dung. Nếu chuyển thiết bị hoặc trình duyệt, bạn sẽ không đọc được nội dung nữa.
+                </p>
+                <p className={'text-default-500 text-xs'}>
+                  <span className={'text-green-500'}>Công khai:</span> Nhật ký sẽ hiển thị công khai sau 5 phút nhằm tránh việc bạn đăng nhật ký nhưng muốn thu hồi.
+                </p>
               </ModalBody>
               <ModalFooter>
                 <Button

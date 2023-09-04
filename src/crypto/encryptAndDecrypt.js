@@ -29,7 +29,7 @@ const GenerateKey = async () => {
 
 const Encrypt = async (rawString) => {
   // ---------------------------- encrypt -----------------------------
-  const enc = new TextEncoder();
+  const enc = new TextEncoder('utf-8');
   const encoded = enc.encode(rawString);
   const counter = window.crypto.getRandomValues(new Uint8Array(16));
 
@@ -94,8 +94,8 @@ const Decrypt = async (strResultEncode, counter, fingerprint) => {
   const result = await window.crypto.subtle.decrypt(
     { name: "AES-CTR", counter: counterBufView, length: 64 }
     , key, bufView);
-
-  return String.fromCharCode.apply(null, new Uint8Array(result));
+  
+  return new TextDecoder('utf-8').decode(result);
 }
 
 export {

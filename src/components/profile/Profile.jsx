@@ -1,22 +1,40 @@
-import {Avatar, Card, CardBody, Divider} from "@nextui-org/react";
-import {IconLockSquareRounded, IconWorld} from "@tabler/icons-react";
+import {Avatar, Button, Card, CardBody, Divider, Tooltip} from "@nextui-org/react";
+import {IconDiscountCheckFilled, IconSettingsFilled, IconCircleKeyFilled, IconArchiveFilled} from "@tabler/icons-react";
 import CreatePost from "../createPost/CreatePost.jsx";
-import {Fragment, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import GatewayApi from "../../apis/GatewayApi.js";
-import {Decrypt} from "../../crypto/encryptAndDecrypt.js";
-import ListPost from "./listPost/ListPost.jsx";
+import Post from "./post/Post.jsx";
+import {useParams, useNavigate} from "react-router-dom";
 
 const Profile = () => {
   const [listPosts, setListPosts] = useState([]);
-  const username = localStorage.getItem('username');
+  const [infoUser, setInfoUser] = useState({});
+  const { username } = useParams();
 
   useEffect(() => {
     getAllPost().then(r => {});
+    getInfoUser().then(r => {});
   }, [])
 
+  const getInfoUser = async () => {
+    const res = await GatewayApi('pkg_diary.get_info', {
+      username: username
+    })
+
+    setInfoUser(res.data[0]);
+  }
+
   const getAllPost = async () => {
+    let listFingerprints = [];
+    if (localStorage.getItem('username') === username) {
+      listFingerprints = JSON.parse(localStorage.getItem('key-nmtung')).map((e) => {
+        return e.fingerprint
+      }).join('|')
+    }    
+
     const res = await GatewayApi('pkg_diary.get_all', {
       username: username,
+      listFingerprints: listFingerprints,
       start: 0,
       to: 100,
     })
@@ -57,38 +75,47 @@ const Profile = () => {
                 />
               </div>
               <div className={'flex flex-col items-center justify-center'}>
-                <h1 className={'text-md font-bold mt-3'}>Nguyễn Mạnh Tùng</h1>
-                <p className={'text-default-500 text-sm mb-3'}>@nmtung</p>
+                <h1 className={'text-md font-bold mt-3 flex items-center gap-1'}>{infoUser.C_FULLNAME} {infoUser.C_IS_ADMIN === 1 && <Tooltip showArrow={true} content="Administrator của hệ thống"><IconDiscountCheckFilled style={{color: 'lightblue'}} size={'20'}/></Tooltip>} </h1>
+                <p className={'text-default-500 text-sm mb-3'}>@{infoUser.C_USERNAME}</p>
               </div>
               <Divider/>
               <table className={'w-full'}>
                 <tbody>
                 <tr>
                   <td className={'text-default-500 text-sm pt-1'}>Lượt ghé thăm</td>
-                  <td className={'text-default-500 text-sm pt-1 text-right'}>0</td>
-                </tr>
-                <tr>
-                  <td className={'text-default-500 text-sm pt-1'}>Theo dõi</td>
-                  <td className={'text-default-500 text-sm pt-1 text-right'}>0</td>
-                </tr>
-                <tr>
-                  <td className={'text-default-500 text-sm pt-1'}>Người theo dõi</td>
-                  <td className={'text-default-500 text-sm pt-1 text-right'}>0</td>
+                  <td className={'text-default-500 text-sm pt-1 text-right'}>{infoUser.C_NUMBER_VIEW}</td>
                 </tr>
                 <tr>
                   <td className={'text-default-500 text-sm pt-1'}>Bài viết</td>
-                  <td className={'text-default-500 text-sm pt-1 text-right'}>0</td>
+                  <td className={'text-default-500 text-sm pt-1 text-right'}>{infoUser.C_NUMBER_POST}</td>
                 </tr>
                 </tbody>
               </table>
             </CardBody>
           </Card>
+          <div className="mt-5 grid grid-cols-5 gap-1">
+            <div className={'flex flex-col items-center justify-center'}>
+              <Button color="secondary" isIconOnly><IconCircleKeyFilled/></Button>
+            </div>
+            <div className={'flex flex-col items-center justify-center'}>
+              <Button color="secondary" isIconOnly>
+                <IconSettingsFilled onClick={() => {
+                  window.location.href = import.meta.env.VITE_SSO_URL + '/settings'
+                }}/>
+              </Button>
+            </div>
+            <div className={'flex flex-col items-center justify-center'}>
+              <Button color="secondary" isIconOnly>
+                <IconArchiveFilled/>
+              </Button>
+            </div>
+          </div>
         </div>
         <div className={'w-2/3'}>
           {/* Posts */}
           <CreatePost onClose={handleClose}/>
           {listPosts.map((item) => {
-            return <ListPost key={item.PK_DIARY_POST} post={item}/>
+            return <Post key={item.PK_DIARY_POST} post={item}/>
           })}
         </div>
       </div>

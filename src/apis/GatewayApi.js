@@ -2,7 +2,7 @@ import Cookie from "js-cookie";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const ENDPOINT = localStorage.getItem('isLocalhost') ? 'http://localhost:5000' : 'https://api.nmtung.dev';
+const ENDPOINT = import.meta.env.VITE_API_URL;
 
 const GatewayApi = async (cmd, dataObj) => {
   // add no-cors
@@ -53,8 +53,8 @@ const GatewayApi = async (cmd, dataObj) => {
 
 const refreshToken = async () => {
   if (!Cookie.get('refresh_token')) {
-    Cookies.remove('access_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
-    Cookies.remove('refresh_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
+    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
+    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
     window.location.href = '/';
     return null;
   }
@@ -76,8 +76,8 @@ const refreshToken = async () => {
   );
 
   if (!responseRefresh.ok) {
-    Cookies.remove('access_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
-    Cookies.remove('refresh_token', {path: '/', domain: localStorage.getItem('isLocalhost') ? 'localhost' : '.nmtung.dev'});
+    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
+    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
     window.location.href = '/';
     return null;
   }
