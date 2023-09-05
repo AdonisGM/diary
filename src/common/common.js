@@ -6,7 +6,7 @@ const convertTimeToTextAgo = (time) => {
   // utc time
   const between = Date.now() / 1000 - Number(new Date(time) / 1000)
 
-  const seconds = Math.floor(between / 1000)
+  const seconds = Math.floor(between)
   if (seconds < 60) return 'Vừa xong'
   const minutes = Math.floor(seconds / 60)
   if (minutes < 60) return pluralize(minutes, ' phút trước')
