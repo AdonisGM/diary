@@ -19,6 +19,8 @@ import {
 } from '@tabler/icons-react';
 import { Decrypt } from '../../../crypto/encryptAndDecrypt.js';
 import { convertTimeToTextAgo } from '../../../common/common.js';
+import callApi from '../../../apis/GatewayApi.js';
+import { toast } from 'react-hot-toast';
 
 const Post = (props) => {
   const [post, setPost] = useState({});
@@ -51,7 +53,25 @@ const Post = (props) => {
     if (option === 'lock' && post.C_STATUS === 'PRIVATE' && isShowContent) {
       setIsShowContent(false);
     }
+
+    if (option === 'archive') {
+      archivePost();
+    }
   };
+
+  const archivePost = () => {
+    const toastId = toast.loading('Đang lưu trữ nhật ký');
+    callApi('pkg_diary.archive_post', {
+      pk_diary_post: post.PK_DIARY_POST,
+    }, () => {
+      toast.success('Lưu trữ thành công',
+        {
+          id: toastId,
+        }
+      );
+      props.onArchive(post.PK_DIARY_POST);
+    })
+  }
 
   return (
     <Card key={post.PK_DIARY_POST} className={'mt-5'}>

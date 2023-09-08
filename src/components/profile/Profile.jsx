@@ -50,6 +50,12 @@ const Profile = () => {
     getAllPost().then(r => {});
   }
 
+  const handleArchive = (pk_diary_post) => {
+    setListPosts(listPosts.filter((item) => {
+      return item.PK_DIARY_POST !== pk_diary_post
+    }))
+  }
+
   return (
     <div className={'flex flex-col items-center'}>
       <div className={'w-[900px] flex flex-row gap-5'}>
@@ -115,7 +121,7 @@ const Profile = () => {
           {/* Posts */}
           <CreatePost onClose={handleClose}/>
           {listPosts.map((item) => {
-            return <Post key={item.PK_DIARY_POST} post={item}/>
+            return <Post key={item.PK_DIARY_POST} post={item} onArchive={handleArchive}/>
           })}
         </div>
       </div>

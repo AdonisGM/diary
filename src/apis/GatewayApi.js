@@ -27,13 +27,13 @@ const callApi = (cmd, data, onSuccess, onError) => {
             callApi(cmd, data, onSuccess, onError);
           });
         }
-      }
-
-      if (res.status === 500) {
+      } else if (res.status === 500) {
         toast.error('Có vẻ hệ thống bị lỗi gì đó rồi 😭');
+      } else if (res.status === 499) {
+        return Promise.reject(undefined);
+      } else {
+        return res.json();
       }
-
-      return res.json();
     })
     .then((data) => {
       if (data.error_message) {
