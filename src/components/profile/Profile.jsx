@@ -2,7 +2,7 @@ import {Avatar, Button, Card, CardBody, Divider, Tooltip} from "@nextui-org/reac
 import {IconDiscountCheckFilled, IconSettingsFilled, IconCircleKeyFilled, IconArchiveFilled} from "@tabler/icons-react";
 import CreatePost from "../createPost/CreatePost.jsx";
 import {useEffect, useState} from "react";
-import GatewayApi from "../../apis/GatewayApi.js";
+import callApi from "../../apis/GatewayApi";
 import Post from "./post/Post.jsx";
 import {useParams, useNavigate} from "react-router-dom";
 
@@ -12,19 +12,19 @@ const Profile = () => {
   const { username } = useParams();
 
   useEffect(() => {
-    getAllPost().then(r => {});
-    getInfoUser().then(r => {});
+    getAllPost();
+    getInfoUser();
   }, [])
 
-  const getInfoUser = async () => {
-    const res = await GatewayApi('pkg_diary.get_info', {
+  const getInfoUser = () => {
+    callApi('pkg_diary.get_info', {
       username: username
+    }, (data) => {
+      setInfoUser(data[0]);
     })
-
-    setInfoUser(res.data[0]);
   }
 
-  const getAllPost = async () => {
+  const getAllPost = () => {
     let listFingerprints = [];
     if (localStorage.getItem('username') === username) {
       listFingerprints = JSON.parse(localStorage.getItem('key-nmtung')).map((e) => {
@@ -32,18 +32,18 @@ const Profile = () => {
       }).join('|')
     }    
 
-    const res = await GatewayApi('pkg_diary.get_all', {
+    callApi('pkg_diary.get_all', {
       username: username,
       listFingerprints: listFingerprints,
       start: 0,
       to: 100,
+    }, (data) => {
+      const arr = data.map((item) => {
+        return item;
+      })
+  
+      setListPosts(arr)
     })
-
-    const arr = res.data.map((item) => {
-      return item;
-    })
-
-    setListPosts(arr)
   }
 
   const handleClose = () => {

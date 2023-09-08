@@ -1,92 +1,102 @@
-import Cookie from "js-cookie";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const ENDPOINT = import.meta.env.VITE_API_URL;
+let isRefreshingToken = false;
+let arrPendingRequest = [];
 
-const GatewayApi = async (cmd, dataObj) => {
-  // add no-cors
-  let options = {
+let ENDPOINT = import.meta.env.VITE_API_URL;
+let DOMAIN_COOKIE = import.meta.env.VITE_DOMAIN_COOKIE;
+let URL_GATEWAY = `${ENDPOINT}/gateway`;
+let URL_REFRESH_TOKEN = `${ENDPOINT}/account/refresh-token`;
+
+const callApi = (cmd, data, onSuccess, onError) => {
+  const optionFetch = createOptionFetch({cmd: cmd, data: data});
+  fetch(URL_GATEWAY, optionFetch)
+    .then((res) => {
+      if (res.status === 401) {        
+        if (isRefreshingToken) {
+          arrPendingRequest.push({
+            cmd: cmd,
+            data: data,
+            onSuccess: onSuccess,
+            onError: onError
+          });
+        } else {
+          isRefreshingToken = true;          
+          callRefreshToken(() => {
+            callApi(cmd, data, onSuccess, onError);
+          });
+        }
+      }
+
+      if (res.status === 500) {
+        toast.error('Có vẻ hệ thống bị lỗi gì đó rồi 😭');
+      }
+
+      return res.json();
+    })
+    .then((data) => {
+      if (data.error_message) {
+        toast.error(data.error_message);
+        if (typeof onError === 'function') {
+          onError();
+        }
+      }
+
+      onSuccess(data.data);
+    })
+    .catch((err) => {
+      toast.error('Hỏng rồi 😭');
+      console.log(err);
+    })
+}
+
+const callRefreshToken = (onSuccess) => {
+  const refreshToken = Cookies.get('refresh_token');
+  if (!refreshToken) {
+    removeToken();
+  }  
+
+  const optionFetch = createOptionFetch({refresh_token: refreshToken})
+  fetch(URL_REFRESH_TOKEN, optionFetch)
+    .then((res) => {
+      if (res.ok) {
+        isRefreshingToken = false;
+        recallApi();
+        onSuccess();
+      } else {
+        removeToken();
+      }
+    })
+    .catch(() => {
+      removeToken();
+    })
+}
+
+const recallApi = () => {
+  const cloneArrPendingRequest = [...arrPendingRequest];
+  arrPendingRequest = [];
+
+  cloneArrPendingRequest.forEach((apiInfomation) => {
+    callApi(apiInfomation.cmd, apiInfomation.data, apiInfomation.onSuccess, apiInfomation.onError);
+  })
+}
+
+const removeToken = () => {
+  Cookies.remove('access_token', {path: '/', domain: DOMAIN_COOKIE});
+  Cookies.remove('refresh_token', {path: '/', domain: DOMAIN_COOKIE});
+  window.location.href = '/';
+}
+
+const createOptionFetch = (body) => {
+  return {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      cmd: cmd,
-      data: dataObj,
-    }),
+    body: JSON.stringify(body),
     credentials: 'include',
   };
+}
 
-  let response = await fetch(`${ENDPOINT}/gateway`, options);
-
-  if (response.status === 401) {
-    await refreshToken();
-    let optionsR = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cmd: cmd,
-        data: dataObj,
-      }),
-      credentials: 'include',
-    };
-    response = await fetch(`${ENDPOINT}/gateway`, optionsR);
-  }
-
-  if (response.status >= 500) {
-    toast('Có lỗi xảy ra, vui lòng thử lại sau!'); // 'Có lỗi xảy ra, vui lòng thử lại sau!
-    return Promise.reject(undefined);
-  }
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    toast(errorData.error_message);
-    return Promise.reject(errorData);
-  }
-
-  const data = await response.json();
-  return Promise.resolve(data);
-};
-
-const refreshToken = async () => {
-  if (!Cookie.get('refresh_token')) {
-    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    window.location.href = '/';
-    return null;
-  }
-
-  const optionsRefresh = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      refresh_token: Cookie.get('refresh_token'),
-    }),
-    method: 'POST',
-    credentials: 'include',
-  };
-
-  const responseRefresh = await fetch(
-    `${ENDPOINT}/account/refresh-token`,
-    optionsRefresh
-  );
-
-  if (!responseRefresh.ok) {
-    Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
-    window.location.href = '/';
-    return null;
-  }
-
-  if (responseRefresh.status === 204) {
-    return null;
-  }
-
-  return await responseRefresh.json();
-};
-
-export default GatewayApi;
+export default callApi

@@ -11,7 +11,7 @@ import {
 import {Fragment, useEffect, useRef, useState} from "react";
 import {IconLockSquareRounded, IconWorld} from "@tabler/icons-react";
 import {GenerateKey, Encrypt} from '../../crypto/encryptAndDecrypt'
-import GatewayApi from "../../apis/GatewayApi.js";
+import callApi from "../../apis/GatewayApi";
 import Cookies from "js-cookie";
 
 const listOptions = [
@@ -76,12 +76,16 @@ const CreatePost = (props) => {
     }
 
     try {
-      await GatewayApi('pkg_diary.add_post', {
+      callApi('pkg_diary.add_post', {
         title: summary,
         content: encrypted,
         status: option,
         fingerprint: fingerprint,
         counter: counter
+      }, (dataSuccess) => {
+
+      }, (dataError) => {
+
       })
 
       onClose();
