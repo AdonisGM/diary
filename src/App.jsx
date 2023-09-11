@@ -42,7 +42,7 @@ function App() {
         const base64 = token.split('.')[1];
         const payload = JSON.parse(atob(base64));
         localStorage.setItem('username', payload.data.username);
-      } catch () {
+      } catch (e) {
         window.location.href = '/';
       }
     }
