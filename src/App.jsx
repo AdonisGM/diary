@@ -36,11 +36,15 @@ function App() {
       animate(scope.current, {opacity: 1, y: 0, scale: 1});
     }
 
-    if (!localStorage.getItem('username') && Cookies.get('access_token')) {
-      const token = Cookies.get('access_token');
-      const base64 = token.split('.')[1];
-      const payload = JSON.parse(atob(base64));
-      localStorage.setItem('username', payload.data.username);
+    if (Cookies.get('access_token')) {
+      try {
+        const token = Cookies.get('access_token');
+        const base64 = token.split('.')[1];
+        const payload = JSON.parse(atob(base64));
+        localStorage.setItem('username', payload.data.username);
+      } catch () {
+        window.location.href = '/';
+      }
     }
 
     if (!Cookies.get('access_token') || !Cookies.get('refresh_token')) {
