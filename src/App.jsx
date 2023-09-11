@@ -42,6 +42,10 @@ function App() {
       const payload = JSON.parse(atob(base64));
       localStorage.setItem('username', payload.data.username);
     }
+
+    if (!Cookies.get('access_token') || !Cookies.get('refresh_token')) {
+      localStorage.removeItem('username');
+    }
   }, [animate, scope]);
 
   return (
