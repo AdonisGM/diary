@@ -43,6 +43,8 @@ function App() {
         const payload = JSON.parse(atob(base64));
         localStorage.setItem('username', payload.data.username);
       } catch (e) {
+        Cookies.remove('access_token');
+        Cookies.remove('refresh_token');
         window.location.href = '/';
       }
     }
