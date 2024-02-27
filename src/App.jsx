@@ -3,6 +3,7 @@ import './App.css'
 import {
   createBrowserRouter,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import CookieImage from "./assets/cookie-svgrepo-com.svg";
 import {Button, Card, Image} from "@nextui-org/react";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
 
 function App() {
   const [scope, animate] = useAnimate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem('isAllowCookie')) {
@@ -43,9 +45,9 @@ function App() {
         const payload = JSON.parse(atob(base64));
         localStorage.setItem('username', payload.data.username);
       } catch (e) {
-        Cookies.remove('access_token');
-        Cookies.remove('refresh_token');
-        window.location.href = '/';
+        Cookies.remove('access_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
+        Cookies.remove('refresh_token', {path: '/', domain: import.meta.env.VITE_DOMAIN_COOKIE});
+        navigate(`/`);
       }
     }
 
