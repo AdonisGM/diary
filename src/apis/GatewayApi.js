@@ -28,7 +28,7 @@ const callApi = (cmd, data, onSuccess, onError) => {
           });
         }
       } else if (res.status === 500) {
-        toast.error('Có vẻ hệ thống bị lỗi gì đó rồi 😭');
+        toast.error('Lỗi gì đó rồi 😭');
       } else if (res.status === 499) {
         return Promise.reject(undefined);
       } else {
@@ -46,7 +46,6 @@ const callApi = (cmd, data, onSuccess, onError) => {
       onSuccess(data.data);
     })
     .catch((err) => {
-      toast.error('Hỏng rồi 😭');
       console.log(err);
     })
 }
