@@ -27,7 +27,7 @@ const Profile = () => {
   const getAllPost = () => {
     let listFingerprints = [];
     if (localStorage.getItem('username') === username) {
-      listFingerprints = JSON.parse(localStorage.getItem('key-nmtung')).map((e) => {
+      listFingerprints = JSON.parse(localStorage.getItem(`key-${username}`)).map((e) => {
         return e.fingerprint
       }).join('|')
     }    
