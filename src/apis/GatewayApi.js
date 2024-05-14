@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import ErrorToast from "../layout/ErrorToast.jsx";
 
 let isRefreshingToken = false;
 let arrPendingRequest = [];
@@ -13,7 +14,7 @@ const callApi = (cmd, data, onSuccess, onError) => {
   const optionFetch = createOptionFetch({cmd: cmd, data: data});
   fetch(URL_GATEWAY, optionFetch)
     .then((res) => {
-      if (res.status === 401) {        
+      if (res.status === 401) {
         if (isRefreshingToken) {
           arrPendingRequest.push({
             cmd: cmd,
@@ -22,7 +23,7 @@ const callApi = (cmd, data, onSuccess, onError) => {
             onError: onError
           });
         } else {
-          isRefreshingToken = true;          
+          isRefreshingToken = true;
           callRefreshToken(() => {
             callApi(cmd, data, onSuccess, onError);
           });
@@ -37,26 +38,36 @@ const callApi = (cmd, data, onSuccess, onError) => {
     })
     .then((data) => {
       if (data.error_message) {
-        toast.error(data.error_message);
+        showToastError(data.error_message)
         if (typeof onError === 'function') {
           onError();
         }
+      } else {
+        if (typeof onSuccess === 'function') {
+          onSuccess(data.data);
+        }
       }
-
-      onSuccess(data.data);
     })
     .catch((err) => {
       console.log(err);
     })
 }
 
-const callRefreshToken = (onSuccess) => {
-  const refreshToken = Cookies.get('refresh_token');
-  if (!refreshToken) {
-    removeToken();
-  }  
+const showToastError = (errorMessage) => {
+  if (!errorMessage.includes(']:::[')) {
+    toast.error(errorMessage);
+  } else {
+    const arrError = errorMessage.split(':::');
+    const errorObj = {
+      code: arrError[0].substring(1, arrError[0].length - 1),
+      message: arrError[2].substring(1, arrError[2].length - 1)
+    }
+    toast.error(ErrorToast(errorObj));
+  }
+}
 
-  const optionFetch = createOptionFetch({refresh_token: refreshToken})
+const callRefreshToken = (onSuccess) => {
+  const optionFetch = createOptionFetch({})
   fetch(URL_REFRESH_TOKEN, optionFetch)
     .then((res) => {
       if (res.ok) {
@@ -82,8 +93,7 @@ const recallApi = () => {
 }
 
 const removeToken = () => {
-  Cookies.remove('access_token', {path: '/', domain: DOMAIN_COOKIE});
-  Cookies.remove('refresh_token', {path: '/', domain: DOMAIN_COOKIE});
+  Cookies.remove('info', {path: '/', domain: DOMAIN_COOKIE});
   window.location.href = '/';
 }
 

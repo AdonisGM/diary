@@ -4,12 +4,12 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Dropdown, 
-  DropdownTrigger, 
-  DropdownMenu, 
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
   DropdownItem
 } from '@nextui-org/react';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconLockSquareRounded,
   IconWorld,
@@ -17,9 +17,8 @@ import {
   IconCircleKeyFilled,
   IconArchiveFilled
 } from '@tabler/icons-react';
-import { Decrypt } from '../../../crypto/encryptAndDecrypt.js';
-import { convertTimeToTextAgo } from '../../../common/common.js';
-import callApi from '../../../apis/GatewayApi.js';
+import { Decrypt } from '../../crypto/encryptAndDecrypt.js'
+import callApi from '../../apis/GatewayApi.js';
 import { toast } from 'react-hot-toast';
 
 const Post = (props) => {
@@ -109,7 +108,7 @@ const Post = (props) => {
                 )}
                 <p className={'text-xs italic'}>
                   {post.C_STATUS === 'PRIVATE' ? 'Riêng tư' : 'Công khai'} •{' '}
-                  <span 
+                  <span
                     className={'text-default-400'}
                   >{new Date(post.C_CREATED_DATE).toLocaleString('vi', {hour: '2-digit', minute: '2-digit'})}</span>
                 </p>
@@ -117,34 +116,34 @@ const Post = (props) => {
             </p>
           </div>
           <div className="h-full">
-          <Dropdown>
-            <DropdownTrigger>
-            <IconDotsCircleHorizontal
-              size={20}
-              stroke={2}
-              color={'gray'}
-              className={'cursor-pointer'}
-            />
-            </DropdownTrigger>
-            <DropdownMenu variant="flat" disabledKeys={disableKey} onAction={handleSelectOption}>
-              {<DropdownItem
-                key={'lock'}
-                description={'Ẩn nội dung nhật ký này'}
-                color="secondary"                
-                startContent={<IconCircleKeyFilled size={22} stroke={2}/>}
-              >
-                Khoá nhật ký
-              </DropdownItem>}
-              <DropdownItem
-                key={'archive'}
-                description={'Bạn có thể xem lại nhật ký này trong lưu trữ'}
-                color="danger"
-                startContent={<IconArchiveFilled size={22} stroke={2}/>}
-              >
-                Lưu trữ
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <IconDotsCircleHorizontal
+                  size={20}
+                  stroke={2}
+                  color={'gray'}
+                  className={'cursor-pointer'}
+                />
+              </DropdownTrigger>
+              <DropdownMenu variant="flat" disabledKeys={disableKey} onAction={handleSelectOption}>
+                {<DropdownItem
+                  key={'lock'}
+                  description={'Ẩn nội dung nhật ký này'}
+                  color="secondary"
+                  startContent={<IconCircleKeyFilled size={22} stroke={2}/>}
+                >
+                  Khoá nhật ký
+                </DropdownItem>}
+                <DropdownItem
+                  key={'archive'}
+                  description={'Bạn có thể xem lại nhật ký này trong lưu trữ'}
+                  color="danger"
+                  startContent={<IconArchiveFilled size={22} stroke={2}/>}
+                >
+                  Lưu trữ
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </CardHeader>

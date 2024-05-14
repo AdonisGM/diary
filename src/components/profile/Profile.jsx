@@ -3,7 +3,7 @@ import {IconDiscountCheckFilled, IconSettingsFilled, IconCircleKeyFilled, IconAr
 import CreatePost from "../createPost/CreatePost.jsx";
 import {useEffect, useState} from "react";
 import callApi from "../../apis/GatewayApi";
-import Post from "./post/Post.jsx";
+import PostItem from "../../pages/postPage/PostItem.jsx";
 import {useParams, useNavigate} from "react-router-dom";
 
 const Profile = () => {
@@ -30,7 +30,7 @@ const Profile = () => {
       listFingerprints = JSON.parse(localStorage.getItem(`key-${username}`)).map((e) => {
         return e.fingerprint
       }).join('|')
-    }    
+    }
 
     callApi('pkg_diary.get_all', {
       username: username,
@@ -121,7 +121,7 @@ const Profile = () => {
           {/* Posts */}
           <CreatePost onClose={handleClose}/>
           {listPosts.map((item) => {
-            return <Post key={item.PK_DIARY_POST} post={item} onArchive={handleArchive}/>
+            return <PostItem key={item.PK_DIARY_POST} post={item} onArchive={handleArchive}/>
           })}
         </div>
       </div>
