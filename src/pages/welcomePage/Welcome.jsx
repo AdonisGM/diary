@@ -84,7 +84,7 @@ const Welcome = () => {
 	}
 
 	return (
-		<div className={'flex flex-col items-center justify-center h-screen bg-green-50 gap-3'}>
+		<div className={'flex flex-col items-center justify-center h-screen bg-pink-50 gap-3'}>
 			<Card className={'w-1/2'}>
 				<CardBody className={'flex flex-col items-center justify-center py-10'}>
 					<div className={'flex flex-col items-center justify-center '}>
@@ -92,12 +92,11 @@ const Welcome = () => {
 							className={'text-default-500 text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 leading-normal'}>Diary</h1>
 					</div>
 					<Spacer y={10}/>
-					<p className={'text-default-500 text-sm'}>
-						Oh, Bạn đó à! Có chuyện gì khó nói không? Viết ra đi, viết ra đi. Viết ra cho mình nghe, mình sẽ giữ bí mật
-						và luôn ở đây với bạn khi bạn cần.
+					<p className={'text-default-500 text-sm text-center'}>
+						Oh, Bạn đó à! Có chuyện gì khó nói không? Viết ra đi, viết ra đi.
 					</p>
-					<p className={'text-default-500 text-sm'}>
-						Bạn có thể viết nhật ký của mình ở chế độ riêng tư hoặc công khai.
+					<p className={'text-default-500 text-sm text-center'}>
+						Viết ra cho mình nghe, mình sẽ giữ bí mật và luôn ở đây với bạn khi bạn cần.
 					</p>
 					<Spacer y={16}/>
 					<Button

@@ -11,11 +11,12 @@ const Posts = () => {
 	}, []);
 
 	const getAllPost = () => {
-		console.log(123123)
 		let listFingerprints = [];
-		listFingerprints = JSON.parse(localStorage.getItem(`key-${Cookies.get('info')}`)).map((e) => {
-			return e.fingerprint
-		}).join('|')
+		if (localStorage.getItem(`key-${Cookies.get('info')}`)) {
+			listFingerprints = JSON.parse(localStorage.getItem(`key-${Cookies.get('info')}`)).map((e) => {
+				return e.fingerprint
+			}).join('|')
+		}
 
 		callApi('pkg_diary.get_all', {
 			username: undefined,
