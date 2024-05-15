@@ -108,6 +108,7 @@ const CreatePost = (props) => {
         size={'3xl'}
         isOpen={isOpen}
         onClose={onClose}
+        isDismissable={false}
       >
         <ModalContent>
           {(onClose) => (

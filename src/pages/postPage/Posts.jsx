@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import callApi from "../../apis/GatewayApi.js";
 import PostItem from "./PostItem.jsx";
 import Cookies from "js-cookie";
+import CreatePost from "../../components/createPost/CreatePost"
 
 const Posts = () => {
 	const [listPosts, setListPosts] = useState([]);
@@ -38,8 +39,13 @@ const Posts = () => {
 		}))
 	}
 
+  const handleClose = () => {
+    getAllPost().then();
+  }
+
 	return (
-		<div>
+		<div className={'max-w-[750px]'}>
+			<CreatePost onClose={handleClose}/>
 			{listPosts.map((item) => {
 					return <PostItem key={item.PK_DIARY_POST} post={item} onArchive={handleArchive} />
 			})}
