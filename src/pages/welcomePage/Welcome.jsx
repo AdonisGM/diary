@@ -31,7 +31,7 @@ const buttonContent = {
 const Welcome = () => {
 	const [quote, setQuote] = useState({});
 	const [stateButton, setStateButton] = useState(undefined)
-	const [isRegistering, setIsRegistering] = useState(false)
+	const [isChecking, setIsChecking] = useState(true)
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -40,7 +40,6 @@ const Welcome = () => {
 		// check register if login
 		if (Cookies.get('info') === undefined) {
 			setStateButton('login')
-			return;
 		}
 
 		// check register service
@@ -49,10 +48,13 @@ const Welcome = () => {
 		}, (data) => {
 			if (data[0].STATUS !== 1) {
 				setStateButton('register')
-				return;
+				setIsChecking(false)
+				return
 			}
 
 			navigate(`/posts`);
+		}, () => {
+
 		});
 	}, [stateButton]);
 
@@ -62,12 +64,11 @@ const Welcome = () => {
 	}
 
 	const handleRegisterService = () => {
-		setIsRegistering(true)
+		setIsChecking(true)
 
 		callApi('pkg_user.register_service', {
 			service: 'diary',
 		}, () => {
-			setIsRegistering(false)
 			navigate(`/posts`);
 		});
 	}
@@ -103,9 +104,9 @@ const Welcome = () => {
 						size="md"
 						className={'bg-default-900 text-white w-[160px]'}
 						onClick={handleClickButton}
-						isLoading={isRegistering}
+						isLoading={isChecking}
 					>
-						{buttonContent[stateButton]}
+						{!isChecking && buttonContent[stateButton]}
 					</Button>
 					<Spacer y={14}/>
 					<div className={'flex flex-col items-center justify-center'}>
