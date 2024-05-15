@@ -44,11 +44,13 @@ const Posts = () => {
   }
 
 	return (
-		<div className={'max-w-[750px]'}>
-			<CreatePost onClose={handleClose}/>
-			{listPosts.map((item) => {
-					return <PostItem key={item.PK_DIARY_POST} post={item} onArchive={handleArchive} />
-			})}
+		<div className={'flex flex-col items-center justify-center'}>
+			<div className={'max-w-[750px]'}>
+				<CreatePost onClose={handleClose}/>
+				{listPosts.map((item) => {
+						return <PostItem key={item.PK_DIARY_POST} post={item} onArchive={handleArchive} />
+				})}
+			</div>
 		</div>
 	)
 }
