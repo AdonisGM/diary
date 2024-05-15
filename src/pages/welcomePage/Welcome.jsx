@@ -57,7 +57,7 @@ const Welcome = () => {
 		}, () => {
 
 		});
-	}, [stateButton]);
+	}, []);
 
 	const handleLogin = () => {
 		const redirect_uri = encodeURIComponent(window.location.origin);
