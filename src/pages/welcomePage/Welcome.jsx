@@ -40,6 +40,7 @@ const Welcome = () => {
 		// check register if login
 		if (Cookies.get('info') === undefined) {
 			setStateButton('login')
+			setIsChecking(false)
 			return
 		}
 
